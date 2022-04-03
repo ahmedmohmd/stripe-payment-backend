@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 /**
  * ? Source Code
  */
-app.post("/create-checkout-session", async (req, res) => {
+app.post("/buy", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
