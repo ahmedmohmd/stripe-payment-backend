@@ -11,6 +11,6 @@ Stripe Payment is a simple project to test online Payment Mathod with Stripe
 
 ## Other Libs & Packages:
 - [_stripe_](https://www.npmjs.com/package/cli-table) Package
-- [_dotenv_](https://www.npmjs.com/package/cli-table) Package
-- [_nodemon_](https://www.npmjs.com/package/cli-table) Package
-- [_body-parser_](https://www.npmjs.com/package/cli-table) Package
+- [_dotenv_](https://www.npmjs.com/package/dotenv) Package
+- [_nodemon_](https://www.npmjs.com/package/nodemon) Package
+- [_body-parser_](https://www.npmjs.com/package/body-parser) Package
