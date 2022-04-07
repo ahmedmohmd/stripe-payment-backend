@@ -1,47 +1,44 @@
-/**
- * ? Constants
- */
-const PORT = process.env.PORT || 5000;
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const stripePublicKey = process.env.STRIPE_PUBLIC_KEY;
-
-/**
- * ? Imports
- */
-const express = require("express");
-const bodyParser = require("body-parser");
+//* Imports
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
-const stripe = require("stripe")(stripeSecretKey);
-const { appUrl } = require("./config/config.json");
+//* Constants
+const PORT = process.env.PORT || 5000;
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
-/**
- * ? Initialaize Server
- */
+//* Imports
+const { appUrl } = require("./config/config.json");
+const stripe = require("stripe")(stripeSecretKey);
+const cors = require("cors");
+const express = require("express");
+const bodyParser = require("body-parser");
+
+//* Initialaize Server
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/**
- * ? Source Code
- */
+//* Source Code
 app.post("/buy", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Node JS Course",
+              name: req.body.name,
+              images: [req.body.image],
             },
-            unit_amount: 7000,
+            unit_amount: req.body.price * 100,
           },
-          quantity: 1,
+          quantity: req.body.amount,
         },
       ],
       mode: "payment",
@@ -51,13 +48,11 @@ app.post("/buy", async (req, res) => {
 
     res.json({ url: session.url });
   } catch (error) {
-    res.status(5000).send("Unexpected Error Occured!");
+    res.status(500).send("Unexpected Error Occured!");
   }
 });
 
-/**
- * ? Listen to PORT
- */
+//* Listen to PORT
 app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`);
 });
