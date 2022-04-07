@@ -18,7 +18,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: appUrl,
+    origin: "*",
   })
 );
 app.use(bodyParser.urlencoded({ extended: false }));
